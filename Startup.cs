@@ -1,7 +1,10 @@
 using auto_highlighter_iam.DataAccess;
+using auto_highlighter_iam.Services;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -28,10 +31,19 @@ namespace auto_highlighter_iam
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+
             services.AddDbContext<DataContext>(options =>
             {
                 options.UseNpgsql(_config.GetConnectionString("AutoHighlighterIAMDev"));
             });
+            services.AddIdentity<IdentityUser, IdentityRole>(options =>
+            {
+                options.Password.RequiredLength = 12;
+                options.User.RequireUniqueEmail = true;
+                //options.SignIn.RequireConfirmedEmail = true;
+            })
+                .AddEntityFrameworkStores<DataContext>();
+            services.AddScoped<IAuthenticationService, AuthenticationService>();
 
             services.AddControllers();
             services.AddSwaggerGen(c =>
@@ -57,6 +69,8 @@ namespace auto_highlighter_iam
             app.UseRouting();
 
             app.UseAuthorization();
+
+            app.UseAuthentication();
 
             app.UseEndpoints(endpoints =>
             {

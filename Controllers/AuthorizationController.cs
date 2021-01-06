@@ -6,8 +6,11 @@ using System.Threading.Tasks;
 
 namespace auto_highlighter_iam.Controllers
 {
-    public class AuthorizationController : Controller
+    [ApiController]
+    [Route("/api-v1/[controller]")]
+    public class AuthorizationController : ControllerBase
     {
+        [HttpGet]
         public IActionResult Index()
         {
             throw new NotImplementedException();
