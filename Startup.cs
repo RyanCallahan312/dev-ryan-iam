@@ -64,6 +64,8 @@ namespace auto_highlighter_iam
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "auto_highlighter_iam v1"));
             }
 
+            app.UseExceptionHandler("/exception");
+
             app.UseHttpsRedirection();
 
             app.UseRouting();

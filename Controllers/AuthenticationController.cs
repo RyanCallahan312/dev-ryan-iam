@@ -30,26 +30,23 @@ namespace auto_highlighter_iam.Controllers
         }
 
         [HttpPost("[action]")]
-        public IActionResult SignIn([FromBody] LoginDTO loginDTO)
+        public async Task<IActionResult> SignIn([FromBody] LoginDTO loginDTO)
         {
-            _authneticationService.SignIn(loginDTO.Email, loginDTO.Password);
+            IdentityUser user = await _authneticationService.SignIn(loginDTO.Email, loginDTO.Password);
 
-            return Ok();
+            return Ok(user);
         }
 
         [HttpPost("[action]")]
         public async Task<IActionResult> Register([FromBody] RegistrationDTO registrationDTO)
         {
+            if (registrationDTO.Password != registrationDTO.ConfirmPassword) return BadRequest();
 
-            IdentityUser newUser = new() { UserName = registrationDTO.UserName, Email = registrationDTO.Email };
-            IdentityResult result = await _userManager.CreateAsync(newUser, registrationDTO.Password);
+            IdentityResult registrationResult = await _authneticationService.Register(registrationDTO.UserName, registrationDTO.Email, registrationDTO.Password);
 
-            if (result.Succeeded)
-            {
-                await _signInManager.SignInAsync(newUser, false);
-            }
+            if (!registrationResult.Succeeded) return BadRequest();
 
-            return BadRequest();
+            return CreatedAtAction(nameof(SignIn), new { message = "Successfully created new user" });
         }
 
     }
