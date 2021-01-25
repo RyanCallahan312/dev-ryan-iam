@@ -7,9 +7,9 @@ namespace auto_highlighter_iam.Constants
 {
     public enum SuperAdminClaims
     {
-        VIEW,
-        EDIT,
-        DELETE,
-        CREATE
+        VIEW = 1,
+        EDIT = 1,
+        DELETE = 1,
+        CREATE = 1
     }
 }

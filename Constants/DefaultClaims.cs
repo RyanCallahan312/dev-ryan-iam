@@ -7,6 +7,6 @@ namespace auto_highlighter_iam.Constants
 {
     public enum DefaultClaims
     {
-        VIEW
+        VIEW = 1
     }
 }

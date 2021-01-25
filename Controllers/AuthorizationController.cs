@@ -18,30 +18,40 @@ namespace auto_highlighter_iam.Controllers
     [Route("/api-v1/[controller]")]
     public class AuthorizationController : ControllerBase
     {
-        private readonly ILogger<AuthorizationController> _logger;
         private readonly IConfiguration _config;
         private readonly UserManager<IdentityUser> _userManager;
-        private readonly RoleManager<IdentityRole> _roleManager;
         private readonly Services.IAuthorizationService _authorizationService;
 
-        public AuthorizationController(ILogger<AuthorizationController> logger, IConfiguration config, UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager, Services.IAuthorizationService authorizationService)
+        public AuthorizationController(IConfiguration config, UserManager<IdentityUser> userManager, Services.IAuthorizationService authorizationService)
         {
-            _logger = logger;
             _config = config;
             _userManager = userManager;
-            _roleManager = roleManager;
             _authorizationService = authorizationService;
         }
 
-        [HttpGet]
+        [HttpGet("[action]")]
         [Authorize(Roles = "SUPERADMIN")]
-        public IActionResult Index()
+        public IActionResult TestSuperAdmin()
         {
             return Ok();
         }
 
-        [HttpPost]
-        [Authorize(Roles = "Default")]
+        [HttpGet("[action]")]
+        [Authorize(Roles = "DEFAULT")]
+        public IActionResult TestDefault()
+        {
+            return Ok();
+        }
+
+        [HttpGet("[action]")]
+        [Authorize]
+        public IActionResult TestAny()
+        {
+            return Ok();
+        }
+
+        [HttpPost("[action]")]
+        [Authorize(Roles = "DEFAULT")]
         public async Task<IActionResult> CreateSuperAdmin()
         {
 

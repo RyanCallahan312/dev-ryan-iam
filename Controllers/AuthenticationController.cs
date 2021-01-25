@@ -18,29 +18,12 @@ namespace auto_highlighter_iam.Controllers
     [Route("/api-v1/[controller]")]
     public class AuthenticationController : ControllerBase
     {
-
-        private readonly DataContext _db;
-        private readonly UserManager<IdentityUser> _userManager;
-        private readonly SignInManager<IdentityUser> _signInManager;
         private readonly IAuthenticationService _authenticationService;
         private readonly Services.IAuthorizationService _authorizationService;
-        private readonly RoleManager<IdentityRole> _roleManager;
-        public AuthenticationController(DataContext db, UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager, IAuthenticationService authenticationService, Services.IAuthorizationService authorizationService, RoleManager<IdentityRole> roleManager)
+        public AuthenticationController(IAuthenticationService authenticationService, Services.IAuthorizationService authorizationService)
         {
-            _db = db;
-            _userManager = userManager;
-            _signInManager = signInManager;
             _authenticationService = authenticationService;
             _authorizationService = authorizationService;
-            _roleManager = roleManager;
-        }
-
-        [HttpGet("[action]")]
-        public async Task<IActionResult> GetRoleClaims(string roleName)
-        {
-            var role = await _roleManager.FindByNameAsync(roleName);
-            var claims = await _roleManager.GetClaimsAsync(role);
-            return Ok(claims);
         }
 
         [HttpPost("[action]")]
@@ -48,7 +31,9 @@ namespace auto_highlighter_iam.Controllers
         {
             IdentityUser user = await _authenticationService.SignIn(loginDTO.Email.Trim(), loginDTO.Password);
 
-            return Ok(user);
+            string jwtToken = await _authorizationService.GetToken(user);
+
+            return Ok(jwtToken);
         }
 
         [HttpPost("[action]")]

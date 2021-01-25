@@ -13,6 +13,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.Net.Http.Headers;
 using Microsoft.OpenApi.Models;
 using System;
 using System.Collections.Generic;
@@ -26,9 +27,11 @@ namespace auto_highlighter_iam
     {
 
         private readonly IConfiguration _config;
-        public Startup(IConfiguration config)
+        private readonly IWebHostEnvironment _env;
+        public Startup(IConfiguration config, IWebHostEnvironment env)
         {
             _config = config;
+            _env = env;
         }
 
         // This method gets called by the runtime. Use this method to add services to the container.
@@ -40,7 +43,10 @@ namespace auto_highlighter_iam
                 options.UseNpgsql(_config.GetConnectionString("AutoHighlighterIAMDev"));
             });
 
-            services.AddIdentity<IdentityUser, IdentityRole>(options =>
+            services.AddScoped<IAuthenticationService, AuthenticationService>();
+            services.AddScoped<IAuthorizationService, AuthorizationService>();
+
+            IdentityBuilder iBuilder = services.AddIdentityCore<IdentityUser>(options =>
             {
                 options.User.AllowedUserNameCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._ ";
                 options.Password.RequiredLength = 12;
@@ -50,34 +56,56 @@ namespace auto_highlighter_iam
                 options.Password.RequireNonAlphanumeric = false;
                 options.User.RequireUniqueEmail = true;
                 //options.SignIn.RequireConfirmedEmail = true;
-            }).AddEntityFrameworkStores<DataContext>();
-
-            services.AddScoped<IAuthenticationService, AuthenticationService>();
-            services.AddScoped<IAuthorizationService, AuthorizationService>();
-
-            services.AddAuthentication(options =>
-            {
-                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-            }).AddJwtBearer(jwt =>
-            {
-
-                jwt.RequireHttpsMetadata = false;
-                jwt.SaveToken = true;
-                jwt.TokenValidationParameters = new TokenValidationParameters
-                {
-                    ValidateIssuerSigningKey = true,
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(_config["JWT:Secret"])),
-                    ValidateIssuer = false,
-                    ValidateAudience = false
-                };
             });
+            iBuilder = new IdentityBuilder(iBuilder.UserType, typeof(IdentityRole), iBuilder.Services)
+                .AddEntityFrameworkStores<DataContext>()
+                .AddRoleManager<RoleManager<IdentityRole>>()
+                .AddSignInManager<SignInManager<IdentityUser>>();
+
+
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+            .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, config =>
+           {
+               config.RequireHttpsMetadata = !_env.IsDevelopment();
+               config.TokenValidationParameters = new TokenValidationParameters
+               {
+                   ValidateIssuerSigningKey = true,
+                   IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["JWT:Secret"])),
+                   ValidateIssuer = true,
+                   ValidIssuer = _config["JWT:Iss"],
+                   ValidateAudience = true,
+                   ValidAudience = _config["JWT:Aud"]
+               };
+           });
 
             services.AddAuthorization();
+
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "auto_highlighter_iam", Version = "v1" });
+
+                c.AddSecurityDefinition(JwtBearerDefaults.AuthenticationScheme, new OpenApiSecurityScheme
+                {
+                    In = ParameterLocation.Header,
+                    Description = "Insert JWT with Bearer into field",
+                    Name = "Authorization",
+                    Type = SecuritySchemeType.ApiKey
+                });
+
+                c.AddSecurityRequirement(new OpenApiSecurityRequirement {
+                    {
+                        new OpenApiSecurityScheme
+                        {
+                            Reference = new OpenApiReference
+                            {
+                                Type = ReferenceType.SecurityScheme,
+                                Id = JwtBearerDefaults.AuthenticationScheme
+                            }
+                        },
+                        Array.Empty<string>()
+                    }
+                });
             });
         }
 
@@ -99,9 +127,9 @@ namespace auto_highlighter_iam
 
             app.UseRouting();
 
-            app.UseAuthorization();
-
             app.UseAuthentication();
+
+            app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {

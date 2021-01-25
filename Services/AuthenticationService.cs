@@ -12,13 +12,10 @@ namespace auto_highlighter_iam.Services
 {
     public class AuthenticationService : IAuthenticationService
     {
-
-        private readonly ILogger<AuthenticationService> _logger;
         private readonly UserManager<IdentityUser> _userManager;
         private readonly SignInManager<IdentityUser> _signInManager;
-        public AuthenticationService(ILogger<AuthenticationService> logger, UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager)
+        public AuthenticationService(UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager)
         {
-            _logger = logger;
             _userManager = userManager;
             _signInManager = signInManager;
         }
@@ -37,7 +34,7 @@ namespace auto_highlighter_iam.Services
             IdentityUser user = await _userManager.FindByEmailAsync(email);
             if (user is null) return user;
 
-            SignInResult result = await _signInManager.PasswordSignInAsync(user, password, false, true);
+            SignInResult result = await _signInManager.CheckPasswordSignInAsync(user, password, true);
             if (!result.Succeeded) return null;
 
             return user;
