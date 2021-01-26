@@ -1,4 +1,4 @@
-﻿using auto_highlighter_iam.DTOs;
+﻿using dev_ryan_iam.DTOs;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -8,7 +8,7 @@ using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 
-namespace auto_highlighter_iam.Controllers
+namespace dev_ryan_iam.Controllers
 {
     [ApiExplorerSettings(IgnoreApi = true)]
     public class ExceptionController : ControllerBase

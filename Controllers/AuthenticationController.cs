@@ -1,7 +1,7 @@
-﻿using auto_highlighter_iam.Constants;
-using auto_highlighter_iam.DataAccess;
-using auto_highlighter_iam.DTOs;
-using auto_highlighter_iam.Services;
+﻿using dev_ryan_iam.Constants;
+using dev_ryan_iam.DataAccess;
+using dev_ryan_iam.DTOs;
+using dev_ryan_iam.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
@@ -12,7 +12,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace auto_highlighter_iam.Controllers
+namespace dev_ryan_iam.Controllers
 {
     [ApiController]
     [Route("/api-v1/[controller]")]

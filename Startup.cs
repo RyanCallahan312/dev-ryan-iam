@@ -1,6 +1,6 @@
 
-using auto_highlighter_iam.DataAccess;
-using auto_highlighter_iam.Services;
+using dev_ryan_iam.DataAccess;
+using dev_ryan_iam.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -21,7 +21,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace auto_highlighter_iam
+namespace dev_ryan_iam
 {
     public class Startup
     {
@@ -118,7 +118,7 @@ namespace auto_highlighter_iam
             {
                 app.UseDeveloperExceptionPage();
                 app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "auto_highlighter_iam v1"));
+                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", $"{_config["ServiceInfo:Domain"]}-iam v1"));
             }
 
             app.UseExceptionHandler("/exception");

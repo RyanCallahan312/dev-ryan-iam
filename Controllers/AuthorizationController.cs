@@ -1,4 +1,4 @@
-﻿using auto_highlighter_iam.Constants;
+﻿using dev_ryan_iam.Constants;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -9,10 +9,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using auto_highlighter_iam.Services;
+using dev_ryan_iam.Services;
 using Microsoft.AspNetCore.Http;
 
-namespace auto_highlighter_iam.Controllers
+namespace dev_ryan_iam.Controllers
 {
     [ApiController]
     [Route("/api-v1/[controller]")]

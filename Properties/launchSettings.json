@@ -17,7 +17,7 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    "auto_highlighter_iam": {
+    "dev_ryan_iam": {
       "commandName": "Project",
       "launchBrowser": true,
       "launchUrl": "swagger",

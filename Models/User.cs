@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace auto_highlighter_iam.Models
+namespace dev_ryan_iam.Models
 {
     public record User
     {

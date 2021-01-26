@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore.Migrations;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
-namespace auto_highlighter_iam.Migrations
+namespace dev_ryan_iam.Migrations
 {
     public partial class InitalDB : Migration
     {

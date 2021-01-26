@@ -5,9 +5,9 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
-using auto_highlighter_iam.DataAccess;
+using dev_ryan_iam.DataAccess;
 
-namespace auto_highlighter_iam.Migrations
+namespace dev_ryan_iam.Migrations
 {
     [DbContext(typeof(DataContext))]
     [Migration("20210104190650_InitalDB")]
@@ -21,7 +21,7 @@ namespace auto_highlighter_iam.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 63)
                 .HasAnnotation("ProductVersion", "5.0.1");
 
-            modelBuilder.Entity("auto_highlighter_iam.Models.Scope", b =>
+            modelBuilder.Entity("dev_ryan_iam.Models.Scope", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -43,7 +43,7 @@ namespace auto_highlighter_iam.Migrations
                     b.ToTable("Scope");
                 });
 
-            modelBuilder.Entity("auto_highlighter_iam.Models.User", b =>
+            modelBuilder.Entity("dev_ryan_iam.Models.User", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -75,14 +75,14 @@ namespace auto_highlighter_iam.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("auto_highlighter_iam.Models.Scope", b =>
+            modelBuilder.Entity("dev_ryan_iam.Models.Scope", b =>
                 {
-                    b.HasOne("auto_highlighter_iam.Models.User", null)
+                    b.HasOne("dev_ryan_iam.Models.User", null)
                         .WithMany("Scopes")
                         .HasForeignKey("UserId");
                 });
 
-            modelBuilder.Entity("auto_highlighter_iam.Models.User", b =>
+            modelBuilder.Entity("dev_ryan_iam.Models.User", b =>
                 {
                     b.Navigation("Scopes");
                 });

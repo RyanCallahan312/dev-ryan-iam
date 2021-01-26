@@ -1,5 +1,5 @@
-﻿using auto_highlighter_iam.Constants;
-using auto_highlighter_iam.Extentions;
+﻿using dev_ryan_iam.Constants;
+using dev_ryan_iam.Extentions;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
@@ -12,7 +12,7 @@ using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 
-namespace auto_highlighter_iam.Services
+namespace dev_ryan_iam.Services
 {
     public class AuthorizationService : IAuthorizationService
     {

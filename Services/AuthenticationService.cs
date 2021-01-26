@@ -1,5 +1,5 @@
 ﻿
-using auto_highlighter_iam.DataAccess;
+using dev_ryan_iam.DataAccess;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
 using System;
@@ -8,7 +8,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Security.Claims;
 
-namespace auto_highlighter_iam.Services
+namespace dev_ryan_iam.Services
 {
     public class AuthenticationService : IAuthenticationService
     {

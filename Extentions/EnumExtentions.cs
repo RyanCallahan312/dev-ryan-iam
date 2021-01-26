@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace auto_highlighter_iam.Extentions
+namespace dev_ryan_iam.Extentions
 {
     public static class EnumExtentions
     {

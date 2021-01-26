@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
-    <RootNamespace>auto_highlighter_iam</RootNamespace>
+    <RootNamespace>dev_ryan_iam</RootNamespace>
     <UserSecretsId>9690b5c7-6a54-46e9-bb5d-77833838d089</UserSecretsId>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
     <DockerfileContext>.</DockerfileContext>

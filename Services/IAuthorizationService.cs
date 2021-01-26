@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using System.Threading.Tasks;
 
-namespace auto_highlighter_iam.Services
+namespace dev_ryan_iam.Services
 {
     public interface IAuthorizationService
     {
