@@ -73,8 +73,8 @@ namespace auto_highlighter_iam.Services
                 IEnumerable<bool> defaultClaimValues = Enum.GetValues(typeof(SuperAdminClaims)).CastBool();
                 await AddClaims(defaultRole, defaultClaimsTypes.Zip(defaultClaimValues, (type, value) => (type, value)));
 
-                IEnumerable<string> adminClaimsTypes = Enum.GetNames(typeof(SuperAdminClaims)).Cast<string>();
-                IEnumerable<bool> adminClaimValues = Enum.GetValues(typeof(SuperAdminClaims)).CastBool();
+                IEnumerable<string> adminClaimsTypes = Enum.GetNames(typeof(DefaultClaims)).Cast<string>();
+                IEnumerable<bool> adminClaimValues = Enum.GetValues(typeof(DefaultClaims)).CastBool();
                 await AddClaims(superAdminRole, adminClaimsTypes.Zip(adminClaimValues, (type, value) => (type, value)));
             }
             catch (Exception)

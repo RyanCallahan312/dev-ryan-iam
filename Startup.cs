@@ -40,7 +40,7 @@ namespace auto_highlighter_iam
 
             services.AddDbContext<DataContext>(options =>
             {
-                options.UseNpgsql(_config.GetConnectionString("AutoHighlighterIAMDev"));
+                options.UseNpgsql(_config.GetConnectionString("IAMDev"));
             });
 
             services.AddScoped<IAuthenticationService, AuthenticationService>();
@@ -83,7 +83,7 @@ namespace auto_highlighter_iam
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "auto_highlighter_iam", Version = "v1" });
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = $"{_config["ServiceInfo:Domain"]}-iam", Version = "v1" });
 
                 c.AddSecurityDefinition(JwtBearerDefaults.AuthenticationScheme, new OpenApiSecurityScheme
                 {
